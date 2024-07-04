@@ -1,15 +1,22 @@
 function Player(name, marker) {
     this.name = name;
     this.marker = marker;
+    this.score = 0;
+
+    this.increaseScore = function () {
+        this.score = this.score + 1;
+    }
 }
 
 let player1 = new Player("Kings", "X"),
     player2 = new Player("Divine", "O"),
     cells = document.querySelectorAll(".cell"),
     score_board = document.querySelectorAll(".score"),
-    turn = player1,
-    score = {player1 : 1, player2 : 2};
+    turn = player1;
+    
 
+score_board[0].textContent = `${player1.name} : ${player1.score}`;
+score_board[1].textContent = `${player2.name} : ${player1.score}`;
 
 cells.forEach(cell => {
     cell.addEventListener("click", (e) => {
@@ -104,6 +111,9 @@ const gameBoard = (function () {
                 winner === "Tie" ? winner_display.textContent = "Tie" : winner_display.textContent = `${turn.name} Wins`;
 
                 document.querySelector(".board").style.pointerEvents = "none";
+
+                // turn === player1 ? score.player1++ : score.player2++;
+                
             };
 
         })();
