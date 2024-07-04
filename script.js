@@ -2,21 +2,20 @@ function Player(name, marker) {
     this.name = name;
     this.marker = marker;
     this.score = 0;
-
-    this.increaseScore = function () {
-        this.score = this.score + 1;
-    }
 }
+
+// Define the increaseScore method on the prototype of Player
+Player.prototype.increaseScore = function() {
+    this.score++;
+};
 
 let player1 = new Player("Kings", "X"),
     player2 = new Player("Divine", "O"),
     cells = document.querySelectorAll(".cell"),
     score_board = document.querySelectorAll(".score"),
     turn = player1;
-    
 
-score_board[0].textContent = `${player1.name} : ${player1.score}`;
-score_board[1].textContent = `${player2.name} : ${player1.score}`;
+updateScore()
 
 cells.forEach(cell => {
     cell.addEventListener("click", (e) => {
@@ -112,8 +111,9 @@ const gameBoard = (function () {
 
                 document.querySelector(".board").style.pointerEvents = "none";
 
-                // turn === player1 ? score.player1++ : score.player2++;
-                
+                turn.increaseScore();
+                updateScore();
+
             };
 
         })();
@@ -125,3 +125,8 @@ const gameBoard = (function () {
     return {placeMarker}
 
 })();
+
+function updateScore() {
+    score_board[0].textContent = `${player1.name} : ${player1.score}`;
+    score_board[1].textContent = `${player2.name} : ${player2.score}`;
+}
