@@ -8,6 +8,7 @@ h1 {
 
 h4 {
     text-align: center;
+    color: white;
 }
 
 .board-score {
@@ -47,6 +48,9 @@ h4 {
     width: 100px;
     height: 100px;
     background-color: pink;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
 }
 
 .buttons {
