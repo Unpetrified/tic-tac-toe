@@ -8,50 +8,56 @@
     <script src="./script.js" defer></script>
 </head>
 <body>
-    <h1>
-        Tic Tac Toe
-    </h1>
-
-    <h4 class="winner">
-        Player 2 wins
-    </h4>
-
-    <section class="board-score">
-
-        <div class="score player-one">
-            player 1 : 0
-        </div>
-
-        <div class="board-buttons">
-            <div class="board">
-                <div class="row" data-row="0">
-                    <div class="cell" data-col="0"></div>
-                    <div class="cell" data-col="1"></div>
-                    <div class="cell" data-col="2"></div>
+    <div class="game">
+        <h1>
+            Tic Tac Toe
+        </h1>
+        <h4 class="winner">
+            Player 2 wins
+        </h4>
+        <section class="board-score">
+            <div class="score">
+                Player 1 : 0
+            </div>
+            <div class="board-buttons">
+                <div class="board">
+                    <div class="row" data-row="0">
+                        <div class="cell" data-col="0"></div>
+                        <div class="cell" data-col="1"></div>
+                        <div class="cell" data-col="2"></div>
+                    </div>
+                    <div class="row" data-row="1">
+                        <div class="cell" data-col="0"></div>
+                        <div class="cell" data-col="1"></div>
+                        <div class="cell" data-col="2"></div>
+                    </div>
+                    <div class="row" data-row="2">
+                        <div class="cell" data-col="0"></div>
+                        <div class="cell" data-col="1"></div>
+                        <div class="cell" data-col="2"></div>
+                    </div>
                 </div>
-                <div class="row" data-row="1">
-                    <div class="cell" data-col="0"></div>
-                    <div class="cell" data-col="1"></div>
-                    <div class="cell" data-col="2"></div>
-                </div>
-                <div class="row" data-row="2">
-                    <div class="cell" data-col="0"></div>
-                    <div class="cell" data-col="1"></div>
-                    <div class="cell" data-col="2"></div>
+                <div class="buttons">
+                    <button class="reset-btn">Reset</button>
+                    <button class="play-again-btn">Play Again</button>
                 </div>
             </div>
-
-            <div class="buttons">
-                <button class="reset-btn">Reset</button>
-                <button class="play-again-btn">Play Again</button>
+            <div class="score">
+                Player 2 : 0
             </div>
-        </div>
+        </section>
+        <footer>Copyright © Unpetrified 2024</footer>
+    </div>
 
-        <div class="score player-two">
-            Player 2 : 0
-        </div>
-    </section>
+    <form action="">
+        <h2>Welcome, Please enter player names to begin</h2>
+        <label for="player-one">Player 1</label>
+        <input type="text" name="player-one" id="player-one" required>
 
-    <footer>Copyright © Unpetrified 2024</footer>
+        <label for="player-two">Player 2</label>
+        <input type="text" name="player-two" id="player-two" required>
+
+        <input type="submit" value="Start Game">
+    </form>
 </body>
 </html>

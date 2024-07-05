@@ -2,6 +2,10 @@ function Player(name, marker) {
     this.name = name;
     this.marker = marker;
     this.score = 0;
+
+    this.setName = function (newName) {
+        this.name = newName;
+    }
 }
 
 // Define the increaseScore method on the prototype of Player
@@ -9,11 +13,31 @@ Player.prototype.increaseScore = function() {
     this.score++;
 };
 
-let player1 = new Player("Kings", "X"),
-    player2 = new Player("Divine", "O"),
+Player.prototype.resetScore = function() {
+    this.score = 0;
+};
+
+let player1 = new Player("Player1", "X"),
+    player2 = new Player("Player2", "O"),
+    turn = player1,
     cells = document.querySelectorAll(".cell"),
     score_board = document.querySelectorAll(".score"),
-    turn = player1;
+    reset_btn = document.querySelector(".reset-btn"),
+    play_again_btn = document.querySelector(".play-again-btn"),
+    form = document.querySelector("form");
+    
+
+form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    player1.setName(form.elements["player-one"].value);
+    player2.setName(form.elements["player-two"].value);
+
+    updateScore();
+
+    form.classList.add("hide");
+    document.querySelector(".game").style.all = "unset";
+})
 
 updateScore()
 
@@ -26,6 +50,17 @@ cells.forEach(cell => {
 
         gameBoard.placeMarker(turn.marker, row, col, ui_cell);        
     })
+});
+
+reset_btn.addEventListener("click", () => {
+    player1.resetScore();
+    player2.resetScore();
+    gameBoard.playAgain();
+    updateScore();
+});
+
+play_again_btn.addEventListener("click", () => {
+    gameBoard.playAgain();
 })
 
 const gameBoard = (function () {
@@ -54,17 +89,14 @@ const gameBoard = (function () {
             if (!GameBoard[0].includes("") && GameBoard[0][0] === GameBoard[0][1] && GameBoard[0][1] === GameBoard[0][2]) {
                 
                 winner = turn;
-                console.log("first row win");
 
             } else if (!GameBoard[1].includes("") && GameBoard[1][1] === GameBoard[1][2] && GameBoard[1][0] === GameBoard[1][1]) {
                 
                 winner = turn;
-                console.log("second row win");
 
             } else if (!GameBoard[2].includes("") && GameBoard[2][1] === GameBoard[2][2] && GameBoard[2][0] === GameBoard[2][1]) {
                 
                 winner = turn;
-                console.log("third row win");
 
             } 
             
@@ -72,17 +104,14 @@ const gameBoard = (function () {
             if (GameBoard[0][0]!=="" && GameBoard[0][0] === GameBoard[1][0] && GameBoard[0][0] === GameBoard[2][0]) {
                 
                 winner = turn;
-                console.log("first col win");
 
             } else if (GameBoard[0][1]!=="" && GameBoard[0][1] === GameBoard[1][1] && GameBoard[0][1] === GameBoard[2][1]) {
                 
                 winner = turn;
-                console.log("second col win");
 
             } else if (GameBoard[0][2]!=="" && GameBoard[0][2] === GameBoard[1][2] && GameBoard[0][2] === GameBoard[2][2]) {
                 
                 winner = turn;
-                console.log("third col win");
 
             }
 
@@ -90,39 +119,57 @@ const gameBoard = (function () {
             if (GameBoard[1][1]!=="" && GameBoard[0][0] === GameBoard[1][1] && GameBoard[0][0] === GameBoard[2][2]) {
                 
                 winner = turn;
-                console.log("diagonal win");
 
             } else if (GameBoard[1][1]!=="" && GameBoard[0][2] === GameBoard[1][1] && GameBoard[1][1] === GameBoard[2][0]) {
                 
                 winner = turn;
-                console.log("diagonal win");
 
             }
 
             // check for tie
-            if (!GameBoard[0].includes("") && !GameBoard[1].includes("") && !GameBoard[2].includes("")) winner = "Tie"
+            if (!GameBoard[0].includes("") && !GameBoard[1].includes("") && !GameBoard[2].includes("") && !winner) winner = "Tie"
 
+            // display winner info of tie
             if (winner) {
                 
-
                 winner_display.style.color = "black";
 
-                winner === "Tie" ? winner_display.textContent = "Tie" : winner_display.textContent = `${turn.name} Wins`;
+                if (Object.getPrototypeOf(winner) === Player.prototype) {
+                    
+                    winner_display.textContent = `${turn.name} Wins`;
+                    turn.increaseScore();
+                    updateScore();
+
+                } else {
+                    winner_display.textContent = "Tie";
+                }
 
                 document.querySelector(".board").style.pointerEvents = "none";
 
-                turn.increaseScore();
-                updateScore();
-
-            };
-
+            } 
         })();
 
         // rotate the turns
         turn === player1 ? turn = player2 : turn = player1;
     }
 
-    return {placeMarker}
+    function playAgain() {
+        for (let i = 0; i < GameBoard.length; i++) {
+            for (let j = 0; j < GameBoard[i].length; j++) {
+                GameBoard[i].splice(j, 1, "");
+            }
+        }
+
+        cells.forEach(cell => {
+            cell.textContent = "";
+        })
+
+        turn = player1;
+        document.querySelector(".board").style.pointerEvents = "all";
+        document.querySelector(".winner").style.color = "white";
+    }
+
+    return {placeMarker, playAgain}
 
 })();
 
